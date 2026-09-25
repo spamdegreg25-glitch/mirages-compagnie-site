@@ -206,7 +206,7 @@ document.addEventListener("DOMContentLoaded", function () {
       iframe.className = "teaser-iframe";
       iframe.src = facade.dataset.teaserSrc + "?autoplay=1";
       iframe.title = facade.dataset.teaserTitle || "Teaser";
-      iframe.allow = "autoplay";
+      iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
       iframe.allowFullscreen = true;
       wrap.appendChild(iframe);
       facade.replaceWith(wrap);
@@ -217,11 +217,16 @@ document.addEventListener("DOMContentLoaded", function () {
   var toggle = document.querySelector(".nav-toggle");
   var nav = document.querySelector(".main-nav");
   if (toggle && nav) {
+    var setNavOpen = function (open) {
+      nav.classList.toggle("open", open);
+      toggle.classList.toggle("is-open", open);
+      toggle.setAttribute("aria-label", open ? "Fermer le menu" : "Ouvrir le menu");
+    };
     toggle.addEventListener("click", function () {
-      nav.classList.toggle("open");
+      setNavOpen(!nav.classList.contains("open"));
     });
     nav.querySelectorAll("a").forEach(function (link) {
-      link.addEventListener("click", function () { nav.classList.remove("open"); });
+      link.addEventListener("click", function () { setNavOpen(false); });
     });
   }
 
